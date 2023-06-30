@@ -42,8 +42,7 @@ export default{
             }
         },
         editTask(taskId) {
-            const task = this.tasks.find(task => task.id === taskId);
-            this.selectedTask = task;
+            this.selectedTask = this.tasks.find(task => task.id === taskId);
             this.isEditing = true;
         },
         saveTask() {
