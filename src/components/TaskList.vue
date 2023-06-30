@@ -5,7 +5,8 @@
         <div class="task-content">
           <span class="task-name" :style="{ backgroundColor: task.completed ? '#4ccc05' : '#fcfcfc' }">{{ task.title }}</span>
           <div class="buttons">
-            <button @click="markTaskAsCompleted(task.id)" v-if="!task.completed">Complete</button>
+            <button @click="markAsCompleted(task.id)" v-if="!task.completed">Complete</button>
+            <button @click="markAsNotCompleted(task.id)" v-if="task.completed">Uncomplete</button>
             <button @click="deleteTask(task.id)">Delete</button>
           </div>
         </div>
@@ -14,6 +15,8 @@
     <AddTask @taskAdded="addTask" />
   </div>
 </template>
+
+<script src="./TaskList.ts"></script>
 
 <style scoped>
 .task-list {
@@ -47,10 +50,6 @@ li {
   border-bottom:1px solid ;
 }
 
-.task-name {
-  background-color: blue;
-}
-
 .buttons {
   display: flex;
 }
@@ -60,5 +59,3 @@ li {
 }
 
 </style>
-
-<script src="./TaskList.ts"></script>
