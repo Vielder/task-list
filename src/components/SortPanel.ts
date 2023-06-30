@@ -1,5 +1,3 @@
-import TaskList from "./TaskList";
-
 export default {
     name: "SortPanel",
     props: {
