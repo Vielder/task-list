@@ -24,7 +24,7 @@ export default{
             };
             this.tasks.push(newTask);
         },
-        markTaskAsCompleted(taskId) {
+        markAsCompleted(taskId) {
             const task = this.tasks.find((task) => task.id === taskId);
             if (task) {
                 task.completed = true;
@@ -32,6 +32,12 @@ export default{
         },
         deleteTask(taskId) {
             this.tasks = this.tasks.filter((task) => task.id !== taskId);
+        },
+        markAsNotCompleted(taskId){
+            const task = this.tasks.find((task) => task.id == taskId)
+            if (task) {
+                task.completed = false;
+            }
         },
     },
 };
