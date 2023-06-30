@@ -1,9 +1,11 @@
 import AddTask from './AddTask.vue';
+import SortPanel from './SortPanel.vue'
 
 export default{
     name: 'TaskList',
     components: {
         AddTask,
+        SortPanel,
     },
     data() {
         return {
@@ -13,8 +15,8 @@ export default{
                 { id: 3, title: 'Task 3', completed: false },
             ],
             newTaskTitle: '',
-            selectedTask: null, // Выбранная задача для редактирования
-            isEditing: false // Флаг редактирования
+            selectedTask: null,
+            isEditing: false,
         };
     },
     methods: {
@@ -25,21 +27,25 @@ export default{
                 completed: false,
             };
             this.tasks.push(newTask);
+            this.saveTasksToLocalStorage();
         },
         markAsCompleted(taskId) {
             const task = this.tasks.find((task) => task.id === taskId);
             if (task) {
                 task.completed = true;
             }
+            this.saveTasksToLocalStorage();
         },
         deleteTask(taskId) {
             this.tasks = this.tasks.filter((task) => task.id !== taskId);
+            this.saveTasksToLocalStorage();
         },
         markAsNotCompleted(taskId){
             const task = this.tasks.find((task) => task.id == taskId)
             if (task) {
                 task.completed = false;
             }
+            this.saveTasksToLocalStorage();
         },
         editTask(taskId) {
             this.selectedTask = this.tasks.find(task => task.id === taskId);
@@ -52,10 +58,25 @@ export default{
                 this.isEditing = false;
                 this.selectedTask = null;
             }
+            this.saveTasksToLocalStorage();
         },
         cancelEditing() {
             this.isEditing = false;
             this.selectedTask = null;
         },
+
+        saveTasksToLocalStorage() {
+            localStorage.setItem('tasks', JSON.stringify(this.tasks));
+        },
+        loadTasksFromLocalStorage() {
+            const savedTasks = localStorage.getItem('tasks');
+            if (savedTasks) {
+                this.tasks = JSON.parse(savedTasks);
+            }
+        },
     },
+    mounted() {
+        this.loadTasksFromLocalStorage();
+
+    }
 };
