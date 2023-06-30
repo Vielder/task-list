@@ -13,6 +13,8 @@ export default{
                 { id: 3, title: 'Task 3', completed: false },
             ],
             newTaskTitle: '',
+            selectedTask: null, // Выбранная задача для редактирования
+            isEditing: false // Флаг редактирования
         };
     },
     methods: {
@@ -38,6 +40,23 @@ export default{
             if (task) {
                 task.completed = false;
             }
+        },
+        editTask(taskId) {
+            const task = this.tasks.find(task => task.id === taskId);
+            this.selectedTask = task;
+            this.isEditing = true;
+        },
+        saveTask() {
+            if (this.selectedTask) {
+                this.selectedTask.title = this.selectedTask.title.trim();
+
+                this.isEditing = false;
+                this.selectedTask = null;
+            }
+        },
+        cancelEditing() {
+            this.isEditing = false;
+            this.selectedTask = null;
         },
     },
 };

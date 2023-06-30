@@ -3,11 +3,23 @@
     <ul>
       <li v-for="task in tasks" :key="task.id">
         <div class="task-content">
-          <span class="task-name" :style="{ backgroundColor: task.completed ? '#4ccc05' : '#fcfcfc' }">{{ task.title }}</span>
+          <span class="task-name" :style="{ backgroundColor: task.completed ? '#98ef68' : '#fcfcfc' }">
+            <!-- Проверяем, открыто ли поле редактирования для текущей задачи -->
+            <span v-if="selectedTask && selectedTask.id === task.id && isEditing">
+              <input type="text" v-model="selectedTask.title" @keyup.enter="saveTask" @keyup.esc="cancelEditing" />
+            </span>
+            <span v-else>
+              {{ task.title }}
+            </span>
+          </span>
           <div class="buttons">
-            <button @click="markAsCompleted(task.id)" v-if="!task.completed">Complete</button>
-            <button @click="markAsNotCompleted(task.id)" v-if="task.completed">Uncomplete</button>
-            <button @click="deleteTask(task.id)">Delete</button>
+
+            <button @click="markAsCompleted(task.id)" v-if="!task.completed && !(selectedTask && selectedTask.id === task.id && isEditing)">Complete</button>
+            <button @click="markAsNotCompleted(task.id)" v-if="task.completed && !(selectedTask && selectedTask.id === task.id && isEditing)">Uncomplete</button>
+            <button @click="deleteTask(task.id)" v-if="!(selectedTask && selectedTask.id === task.id && isEditing)">Delete</button>
+            <button @click="editTask(task.id)" v-if="!(selectedTask && selectedTask.id === task.id && isEditing)">Edit</button>
+            <button @click="cancelEditing(task.id)" v-if="selectedTask && selectedTask.id === task.id && isEditing">Cancel</button>
+            <button @click="saveTask" v-if="selectedTask && selectedTask.id === task.id && isEditing">Save</button>
           </div>
         </div>
       </li>
@@ -22,7 +34,7 @@
 .task-list {
   margin-top: 10px;
   width: 25%;
-  min-width: 400px;
+  min-width: 460px;
   align-items: center;
   display: inline-block;
 }
@@ -48,6 +60,10 @@ li {
   margin-left: 10px;
   margin-right: 10px;
   border-bottom:1px solid ;
+}
+
+.task-name {
+    border-radius: 6px;
 }
 
 .buttons {

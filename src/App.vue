@@ -22,4 +22,12 @@ export default {
   text-align: center;
   margin-top: 60px;
 }
+
+button {
+    border-width: 1px;
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+}
+
 </style>
