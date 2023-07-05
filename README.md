@@ -1,4 +1,7 @@
 # task_list
+Small web application for notes. 
+Deployed with Vercel [here](https://task-list-git-master-vielder.vercel.app/).
+
 
 ## Project setup
 ```
